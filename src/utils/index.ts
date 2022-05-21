@@ -4,7 +4,6 @@ export const getAccessToken = async () => {
     const persistedAppInfoReducer = await AsyncStorage.getItem(
         'persist:appInfo',
     );
-    console.log('🚀 ~ file: index.ts ~ line 7 ~ getBearerToken ~ persistedAppInfoReducer', persistedAppInfoReducer)
     if (!persistedAppInfoReducer) {
         return '';
     }

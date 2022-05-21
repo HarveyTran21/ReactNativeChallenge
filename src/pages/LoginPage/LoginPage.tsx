@@ -6,7 +6,7 @@ import {
   Input,
   Text,
 } from '@app/components'
-import {View} from 'react-native'
+import {Keyboard, View} from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import {styles} from './styles'
 import {PropsType} from './types'
@@ -37,7 +37,7 @@ export const LoginPage = (props: PropsType) => {
       setDisabled(false)
     }
     setErrorMessage('')
-  }, [email, password])
+  }, [email, password, loading])
 
   useEffect(() => {
     if (error) {
@@ -47,6 +47,7 @@ export const LoginPage = (props: PropsType) => {
   }, [error])
 
   const onLoginPress = useCallback(() => {
+    Keyboard.dismiss()
     onSignIn(email, password)
   }, [email, password])
 
@@ -60,9 +61,15 @@ export const LoginPage = (props: PropsType) => {
         <Header text="Login" iconLeftPress={onBack} />
         <KeyboardAwareScrollView
           bounces={false}
+          keyboardShouldPersistTaps="always"
           showsVerticalScrollIndicator={false}>
           <View style={styles.contentContainer}>
-            <Input text="Email" value={email} onChangeText={setEmail} />
+            <Input
+              text="Email"
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+            />
             <Input
               text="Password"
               value={password}

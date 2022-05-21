@@ -1,16 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react'
-import {
-  LinearGradientBackground,
-  BorderButton,
-  Header,
-  Input,
-  Text,
-} from '@app/components'
-import {View} from 'react-native'
+import {BorderButton, Input, Text} from '@app/components'
+import {Keyboard, View} from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import {styles} from './styles'
 import {PropsType} from './types'
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {COLORS} from '@app/constants/color'
 import {useHandler} from './handlers'
 import {useSelector} from 'react-redux'
@@ -38,7 +31,7 @@ export const ProfilePage = (props: PropsType) => {
       setDisabled(false)
     }
     setErrorMessage('')
-  }, [email, name])
+  }, [email, name, loading])
 
   useEffect(() => {
     if (error) {
@@ -48,6 +41,7 @@ export const ProfilePage = (props: PropsType) => {
   }, [error])
 
   const onEditProfilePress = useCallback(() => {
+    Keyboard.dismiss()
     onUpdateProfile(email, name)
   }, [email, name])
 
@@ -71,6 +65,7 @@ export const ProfilePage = (props: PropsType) => {
               text="Email"
               value={email}
               onChangeText={setEmail}
+              autoCapitalize="none"
               inputBackground={COLORS.secondary}
             />
             {!!errorMessage && (

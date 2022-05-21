@@ -6,7 +6,7 @@ import {
   Input,
   Text,
 } from '@app/components'
-import {Alert, View} from 'react-native'
+import {Alert, Keyboard, View} from 'react-native'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import {styles} from './styles'
 import {PropsType} from './types'
@@ -37,7 +37,7 @@ export const SignUpPage = (props: PropsType) => {
       setDisabled(false)
     }
     setErrorMessage('')
-  }, [name, email, password])
+  }, [name, email, password, loading])
 
   useEffect(() => {
     if (existingData && existingData.isExistingUserByEmail) {
@@ -63,6 +63,7 @@ export const SignUpPage = (props: PropsType) => {
   }, [signUpData, error])
 
   const onSignUpPress = useCallback(() => {
+    Keyboard.dismiss()
     if (!validateEmail(email)) {
       setErrorMessage('Invalid Email Format')
       return
@@ -79,10 +80,16 @@ export const SignUpPage = (props: PropsType) => {
         />
         <KeyboardAwareScrollView
           bounces={false}
+          keyboardShouldPersistTaps="always"
           showsVerticalScrollIndicator={false}>
           <View style={styles.contentContainer}>
             <Input text="Your name" value={name} onChangeText={setName} />
-            <Input text="Email" value={email} onChangeText={setEmail} />
+            <Input
+              text="Email"
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+            />
             <Input
               text="Password"
               value={password}
